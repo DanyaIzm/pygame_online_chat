@@ -2,9 +2,9 @@ import pygame
 
 
 class GUIManager:
-    def __init__(self, screen, font):
+    def __init__(self, screen, font_path):
         self.screen = screen
-        self.font: pygame.font.Font = font
+        self.font_path = font_path
         self.gui_elements = []
     
     def add_element(self, element):

@@ -12,16 +12,17 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
-font = pygame.font.Font('assets/font.ttf', 20)
+font_path = 'assets/font.ttf'
 
-gui_manager = GUIManager(screen, font)
+gui_manager = GUIManager(screen, font_path)
 
 text_label = TextLabel(
     gui_manager,
     'text_label',
     pygame.Rect((SCREEN_WIDTH - 900) // 2, (SCREEN_HEIGHT - 60) // 2 - 200, 900, 60),
     text='Введите имя',
-    color=pygame.Color('coral')
+    color=pygame.Color('coral'),
+    font_size=60
 )
 
 text_input = TextInput(
@@ -29,7 +30,8 @@ text_input = TextInput(
     'chat_input',
     pygame.Rect((SCREEN_WIDTH - 900) // 2, (SCREEN_HEIGHT - 60) // 2, 900, 60),
     pygame.Color('yellow'),
-    pygame.Color('lightgray')
+    pygame.Color('lightgray'),
+    font_size=20
     )
 
 

@@ -5,12 +5,13 @@ from gui_elements.base_gui_element import BaseGUIElement
 
 
 class TextInput(BaseGUIElement):
-    def __init__(self, gui_manager: GUIManager, id: str, rect, color_active, color_passive):
+    def __init__(self, gui_manager: GUIManager, id: str, rect, color_active, color_passive, font_size):
         super().__init__(gui_manager, id, rect)
         self.colors = (color_active, color_passive)
         self.color = self.colors[0]
         self.text = ''
         self.active = False
+        self.font = pygame.font.Font(self.gui_manager.font_path, font_size)
 
     def process_event(self, event):
         pass
@@ -21,7 +22,7 @@ class TextInput(BaseGUIElement):
         else: 
             self.color = self.colors[1]
 
-        rendered_text = self.gui_manager.font.render(self.text, False, self.color)
+        rendered_text = self.font.render(self.text, False, self.color)
 
         pygame.draw.rect(self.gui_manager.screen, self.color, self.rect, 2)
 
