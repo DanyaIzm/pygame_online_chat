@@ -2,8 +2,9 @@ import pygame
 
 
 class GUIManager:
-    def __init__(self, screen):
+    def __init__(self, screen, font):
         self.screen = screen
+        self.font: pygame.font.Font = font
         self.gui_elements = []
     
     def add_element(self, element):
@@ -11,10 +12,10 @@ class GUIManager:
 
     def process_event(self, event):
         """ Process current pygame event """
-
         for element in self.gui_elements:
             element.process_event(event)
 
     def update(self):
         """ Update gui elements each frame """
-        pass
+        for element in self.gui_elements:
+            element.update()
