@@ -1,7 +1,7 @@
 import pygame
 
-from gui_manager import GUIManager
 from gui_elements.base_gui_element import BaseGUIElement
+from gui_manager import GUIManager
 
 
 class TextLabel(BaseGUIElement):

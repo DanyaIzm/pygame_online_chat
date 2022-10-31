@@ -1,11 +1,11 @@
 import pygame
 
-from gui_manager import GUIManager
 from gui_elements.base_gui_element import BaseGUIElement
+from gui_manager import GUIManager
 
 
 class TextInput(BaseGUIElement):
-    def __init__(self, gui_manager: GUIManager, id: str, rect, color_active, color_passive, font_size, limit=30, callback=lambda: 0):
+    def __init__(self, gui_manager: GUIManager, id: str, rect, color_active, color_passive, font_size, limit=30, callback=lambda x: 0):
         super().__init__(gui_manager, id, rect)
         self.colors = (color_active, color_passive)
         self.color = self.colors[0]
@@ -13,14 +13,14 @@ class TextInput(BaseGUIElement):
         self.active = False
         self.error = False
         self.error_sound = pygame.mixer.Sound('assets/error_sound.wav')
-        self.rect = rect
         self.font = pygame.font.Font(self.gui_manager.font_path, font_size)
         self.limit = limit
         self.callback = callback
     
     def _action(self) -> bool:
         if self.text:
-            self.callback()
+            self.callback(self.text)
+            self.text = ''
             return True
         else:
             return False

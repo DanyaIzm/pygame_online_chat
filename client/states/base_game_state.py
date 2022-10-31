@@ -5,7 +5,7 @@ class BaseGameState:
     def __init__(self, state_manager: GameStateManager):
         self.state_manager = state_manager
     
-    def set_self(self):
+    def set_self(self, *args, **kwargs):
         self.state_manager.set_state(self)
 
     def process_event(self, event):
