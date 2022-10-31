@@ -19,7 +19,7 @@ gui_manager = GUIManager(screen, font_path)
 text_label = TextLabel(
     gui_manager,
     'text_label',
-    pygame.Rect((SCREEN_WIDTH - 900) // 2, (SCREEN_HEIGHT - 60) // 2 - 200, 900, 60),
+    pygame.Rect((SCREEN_WIDTH - 900) // 2, (SCREEN_HEIGHT - 60) // 2 - 100, 900, 60),
     text='Введите имя',
     color=pygame.Color('coral'),
     font_size=60
