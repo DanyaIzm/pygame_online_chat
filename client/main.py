@@ -8,6 +8,7 @@ from gui_elements.text_input import TextInput
 
 
 pygame.init()
+pygame.mixer.init()
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()

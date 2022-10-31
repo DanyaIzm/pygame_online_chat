@@ -12,6 +12,7 @@ class TextInput(BaseGUIElement):
         self.text = ''
         self.active = False
         self.error = False
+        self.error_sound = pygame.mixer.Sound('assets/error_sound.wav')
         self.rect = rect
         self.font = pygame.font.Font(self.gui_manager.font_path, font_size)
         self.limit = limit
@@ -43,6 +44,8 @@ class TextInput(BaseGUIElement):
             if event.key == pygame.K_RETURN:
                 is_action_triggered = self._action()
                 self.error = not is_action_triggered
+                if self.error:
+                    self.error_sound.play()
 
             if event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
@@ -50,6 +53,7 @@ class TextInput(BaseGUIElement):
                 if len(self.text) < self.limit:
                     self.text += event.unicode.strip()
                 else:
+                    self.error_sound.play()
                     self.error = True
     
     def update(self):
