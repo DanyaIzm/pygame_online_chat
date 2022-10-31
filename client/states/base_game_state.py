@@ -13,3 +13,6 @@ class BaseGameState:
     
     def update(self):
         raise NotImplementedError('This method must be overrided')
+    
+    def process_quit(self):
+        raise NotImplementedError('This method must be overrided')

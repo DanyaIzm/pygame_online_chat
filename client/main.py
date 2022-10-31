@@ -23,6 +23,7 @@ LoginState(state_manager).set_self()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            state_manager.process_quit()
             pygame.quit()
             sys.exit()
         

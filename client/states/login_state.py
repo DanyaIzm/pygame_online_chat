@@ -44,3 +44,6 @@ class LoginState(BaseGameState):
 
     def update(self):
         self.gui_manager.update()
+    
+    def process_quit(self):
+        pass

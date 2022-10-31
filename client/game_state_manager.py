@@ -18,3 +18,6 @@ class GameStateManager:
             self.current_state.update()
         else:
             raise Exception('GameStateManager has no state. You should use set_state method to set state')
+        
+    def process_quit(self):
+        self.state.process_quit()
