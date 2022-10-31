@@ -14,7 +14,9 @@ class LoginState(BaseGameState):
         super().__init__(state_manager)
 
         # next state will be ChatState
-        next_state = ChatState(self.state_manager)
+        def set_next_state(user_name):
+            next_state = ChatState(self.state_manager, user_name)
+            next_state.set_self()
 
         self.gui_manager = GUIManager(self.state_manager.screen, self.state_manager.base_font_path)
 
@@ -34,7 +36,7 @@ class LoginState(BaseGameState):
             pygame.Color('yellow'),
             pygame.Color('lightgray'),
             font_size=20,
-            callback=next_state.set_self
+            callback=set_next_state
             )
     
     def process_event(self, event):

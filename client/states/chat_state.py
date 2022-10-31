@@ -9,10 +9,12 @@ from settings import *
 
 
 class ChatState(BaseGameState):
-    def __init__(self, state_manager: GameStateManager):
+    def __init__(self, state_manager: GameStateManager, user_name):
         super().__init__(state_manager)
 
         self.gui_manager = GUIManager(self.state_manager.screen, self.state_manager.base_font_path)
+
+        self.member_name = user_name
 
         self.chat_box = ChatBox(
             self.gui_manager,
@@ -22,7 +24,7 @@ class ChatState(BaseGameState):
             pygame.Color('coral'),
             pygame.Color('blue'),
             font_size=20,
-            user_name='Daniel'
+            user_name=self.member_name
         )
 
         self.text_input = TextInput(
@@ -35,6 +37,8 @@ class ChatState(BaseGameState):
             limit=50,
             callback=self.chat_box.add_message
         )
+
+        self.member_name = None
     
     def process_event(self, event):
         self.gui_manager.process_event(event)
