@@ -46,12 +46,13 @@ class TextInput(BaseGUIElement):
                 self.error = not is_action_triggered
                 if self.error:
                     self.error_sound.play()
+                return
 
             if event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
             else:
                 if len(self.text) < self.limit:
-                    self.text += event.unicode.strip()
+                    self.text += event.unicode
                 else:
                     self.error_sound.play()
                     self.error = True
