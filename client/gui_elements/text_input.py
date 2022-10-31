@@ -1,10 +1,10 @@
 import pygame
 
 from gui_manager import GUIManager
-from gui_elements.base_gui_element import BaseGuiElement
+from gui_elements.base_gui_element import BaseGUIElement
 
 
-class TextInput(BaseGuiElement):
+class TextInput(BaseGUIElement):
     def __init__(self, gui_manager: GUIManager, id: str, rect, color_active, color_passive):
         super().__init__(gui_manager, id, rect)
         self.colors = (color_active, color_passive)

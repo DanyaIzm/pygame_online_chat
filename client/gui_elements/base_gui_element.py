@@ -1,7 +1,7 @@
 from gui_manager import GUIManager
 
 
-class BaseGuiElement:
+class BaseGUIElement:
     def __init__(self, gui_manager: GUIManager, id: str, rect):
         self.id = id
         self.rect = rect

@@ -3,6 +3,7 @@ import sys
 
 from settings import *
 from gui_manager import GUIManager
+from gui_elements.text_label import TextLabel
 from gui_elements.text_input import TextInput
 
 
@@ -14,6 +15,14 @@ clock = pygame.time.Clock()
 font = pygame.font.Font('assets/font.ttf', 20)
 
 gui_manager = GUIManager(screen, font)
+
+text_label = TextLabel(
+    gui_manager,
+    'text_label',
+    pygame.Rect((SCREEN_WIDTH - 900) // 2, (SCREEN_HEIGHT - 60) // 2 - 200, 900, 60),
+    text='Введите имя',
+    color=pygame.Color('coral')
+)
 
 text_input = TextInput(
     gui_manager,
