@@ -17,8 +17,8 @@ class ChatBox(BaseGUIElement):
         self.message_limit = (self.rect.height - self.message_margin) // (self.font_size + self.message_margin)
         self.messages = []
     
-    def add_message(self, message):
-        self.messages.append((self.member_name, message))
+    def add_message(self, username, message):
+        self.messages.append((username, message))
 
         if len(self.messages) > self.message_limit:
             self.messages.pop(0)
@@ -34,7 +34,7 @@ class ChatBox(BaseGUIElement):
         for message in self.messages:
             user_color = self.member_color if message[0] == self.member_name else self.others_color
 
-            current_user = self.font.render(message[0] + ': ', False, user_color)
+            current_user = self.font.render(message[0] + ': ', False, user_color) if message[0] else self.font.render('', False, user_color)
             current_message = self.font.render(message[1], False, self.message_color)
 
             self.gui_manager.screen.blit(current_user, (self.rect.x + 10, self.rect.y + current_margin))

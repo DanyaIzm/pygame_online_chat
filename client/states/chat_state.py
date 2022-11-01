@@ -1,4 +1,6 @@
 import pygame
+import socket
+import json
 
 from states.base_game_state import BaseGameState
 from game_state_manager import GameStateManager
@@ -15,6 +17,7 @@ class ChatState(BaseGameState):
         self.gui_manager = GUIManager(self.state_manager.screen, self.state_manager.base_font_path)
 
         self.member_name = user_name
+        self.socket = None
 
         self.chat_box = ChatBox(
             self.gui_manager,
@@ -35,16 +38,56 @@ class ChatState(BaseGameState):
             pygame.Color('lightgray'),
             font_size=20,
             limit=50,
-            callback=self.chat_box.add_message
+            callback=self.send_message
         )
 
-        self.member_name = None
+        self.establish_connection()
+    
+    def establish_connection(self):
+        host = 'localhost'
+        port = 25560
+
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((host, port))
+        self.socket.setblocking(False)
+        self.socket.sendall(self.member_name.encode())
+
+    def receive_message(self):
+        try:
+            data = self.socket.recv(1024).decode()
+            data = json.loads(data)
+
+            if data['method'] == 'QUIT':
+                data['message'] = f'Пользователь {data["username"]} отключился'
+                data['username'] = None
+            elif data['method'] == 'CONNECT':
+                data['message'] = f'Пользователь {data["username"]} присоединился'
+                data['username'] = None
+
+            self.chat_box.add_message(data['username'], data['message'])
+        except:
+            pass
+
+    def send_message(self, message):
+        data = self.make_message(message)
+        self.socket.sendall(data)
+
+    def make_message(self, message=None, method='MESSAGE'):
+        data = {
+            'method': method,
+            'username': self.member_name,
+            'message': message
+        }
+
+        return json.dumps(data).encode()
     
     def process_event(self, event):
         self.gui_manager.process_event(event)
 
     def update(self):
+        self.receive_message()
         self.gui_manager.update()
 
     def process_quit(self):
-        pass
+        self.socket.sendall(self.make_message(method='QUIT'))
+        self.socket.close()
