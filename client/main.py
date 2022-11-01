@@ -3,7 +3,7 @@ import sys
 
 from settings import *
 from game_state_manager import GameStateManager
-from states.login_state import LoginState
+from states.ip_state import IPState
 
 
 pygame.init()
@@ -17,7 +17,7 @@ font_path = 'assets/font.ttf'
 state_manager = GameStateManager(screen, font_path)
 
 # set initial game state
-LoginState(state_manager).set_self()
+IPState(state_manager).set_self()
 
 
 while True:

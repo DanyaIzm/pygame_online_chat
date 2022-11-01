@@ -11,7 +11,7 @@ from settings import *
 
 
 class ChatState(BaseGameState):
-    def __init__(self, state_manager: GameStateManager, user_name):
+    def __init__(self, state_manager: GameStateManager, user_name, ip_address):
         super().__init__(state_manager)
 
         self.gui_manager = GUIManager(self.state_manager.screen, self.state_manager.base_font_path)
@@ -41,14 +41,13 @@ class ChatState(BaseGameState):
             callback=self.send_message
         )
 
-        self.establish_connection()
+        self.establish_connection(ip_address)
     
-    def establish_connection(self):
-        host = 'localhost'
+    def establish_connection(self, ip_address):
         port = 25560
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((host, port))
+        self.socket.connect((ip_address, port))
         self.socket.setblocking(False)
         self.socket.sendall(self.member_name.encode())
 
