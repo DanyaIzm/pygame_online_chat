@@ -17,5 +17,5 @@ class TextLabel(BaseGUIElement):
     def update(self):
         self.gui_manager.screen.blit(
             self._rendered_text,
-            (self.rect.x + self._rendered_text.get_width() // 2, self.rect.y),
+            (self.rect.x + (self.rect.width - self._rendered_text.get_width()) // 2, self.rect.y),
             )
