@@ -25,7 +25,7 @@ class ChatState(BaseGameState):
             pygame.Rect(10, 10, SCREEN_WIDTH - 10 * 2, SCREEN_HEIGHT - 90),
             pygame.Color('yellow'),
             pygame.Color('coral'),
-            pygame.Color('blue'),
+            pygame.Color(224, 224, 224),
             font_size=20,
             user_name=self.member_name
         )
