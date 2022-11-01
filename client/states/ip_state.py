@@ -24,7 +24,7 @@ class IPState(BaseGameState):
             'text_label',
             pygame.Rect((SCREEN_WIDTH - 900) // 2, (SCREEN_HEIGHT - 60) // 2 - 100, 900, 60),
             text='Введите IP адрес',
-            color=pygame.Color('red'),
+            color=pygame.Color('limegreen'),
             font_size=60
         )
 
