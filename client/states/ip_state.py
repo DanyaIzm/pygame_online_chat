@@ -39,6 +39,9 @@ class IPState(BaseGameState):
             )
 
     def process_event(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_TAB:
+                self.text_input.active = True
         self.gui_manager.process_event(event)
 
     def update(self):

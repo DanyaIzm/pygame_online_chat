@@ -18,8 +18,8 @@ class TextInput(BaseGUIElement):
         self.callback = callback
     
     def _action(self) -> bool:
-        if self.text:
-            self.callback(self.text)
+        if self.text.strip():
+            self.callback(self.text.strip())
             self.text = ''
             return True
         else:
