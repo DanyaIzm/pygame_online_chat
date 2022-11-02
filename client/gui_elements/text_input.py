@@ -16,6 +16,11 @@ class TextInput(BaseGUIElement):
         self.font = pygame.font.Font(self.gui_manager.font_path, font_size)
         self.limit = limit
         self.callback = callback
+
+        self.is_backspace_hold = False
+        self.backspace_start_delay = 20
+        self.backspace_delay = 4
+        self.backspace_counter = 0
     
     def _action(self) -> bool:
         if self.text.strip():
@@ -50,14 +55,26 @@ class TextInput(BaseGUIElement):
 
             if event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
+                self.is_backspace_hold = True
+                self.backspace_counter = 0
             else:
                 if len(self.text) < self.limit:
                     self.text += event.unicode
                 else:
                     self.error_sound.play()
                     self.error = True
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_BACKSPACE:
+                self.is_backspace_hold = False
     
     def update(self):
+        if self.is_backspace_hold:
+            self.backspace_counter += 1
+            if self.backspace_counter == self.backspace_delay + self.backspace_start_delay:
+                self.backspace_counter = self.backspace_start_delay
+                self.text = self.text[:-1]
+
         if self.active:
             self.color = self.colors[0]
         else: 
