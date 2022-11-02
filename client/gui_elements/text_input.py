@@ -21,6 +21,8 @@ class TextInput(BaseGUIElement):
         self.backspace_start_delay = 20
         self.backspace_delay = 4
         self.backspace_counter = 0
+
+        self.is_text_selected = False
     
     def _action(self) -> bool:
         if self.text.strip():
@@ -36,6 +38,7 @@ class TextInput(BaseGUIElement):
             if self.rect.collidepoint(event.pos):
                 self.active = True
             else:
+                self.is_text_selected = False
                 self.active = False
             
         if not self.active:
@@ -52,11 +55,16 @@ class TextInput(BaseGUIElement):
                 if self.error:
                     self.error_sound.play()
                 return
+            
+            # delete all text if it was selected
+            if self.is_text_selected:
+                    if not event.key in (pygame.K_RIGHT, pygame.K_LEFT):
+                        self.text = ''
+                    self.is_text_selected = False
 
             if event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
                 self.is_backspace_hold = True
-                self.backspace_counter = 0
             else:
                 if len(self.text) < self.limit:
                     self.text += event.unicode
@@ -66,7 +74,15 @@ class TextInput(BaseGUIElement):
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_BACKSPACE:
+                self.backspace_counter = 0
                 self.is_backspace_hold = False
+            
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LCTRL] and keys[pygame.K_a]:
+            self.is_text_selected = True
+            # this is needed to delete ^a symbol
+            self.text = self.text[:-1]
     
     def update(self):
         if self.is_backspace_hold:
@@ -82,8 +98,13 @@ class TextInput(BaseGUIElement):
 
         if self.error:
             self.color = pygame.Color('red')
+        
+        if self.is_text_selected:
+            text_background = pygame.Color('blue')
+        else:
+            text_background = None
 
-        rendered_text = self.font.render(self.text, False, self.color)
+        rendered_text = self.font.render(self.text, False, self.color, text_background)
 
         pygame.draw.rect(self.gui_manager.screen, self.color, self.rect, 2)
 
