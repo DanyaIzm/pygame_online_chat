@@ -70,13 +70,13 @@ def run_server(host, port):
         print('[EVENT] Keyboard interrupt')
     finally:
         for cur_socket in client_sockets:
-            cur_socket.close()
+            cur_socket[1].close()
         server_socket.close()
         print('[EXIT] Successfully exited')
 
 
 if __name__ == '__main__':
-    HOST = 'localhost'
+    HOST = '0.0.0.0'
     PORT = 25560
     
     run_server(HOST, PORT)
