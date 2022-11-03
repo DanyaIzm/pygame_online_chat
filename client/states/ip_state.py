@@ -15,7 +15,7 @@ class IPState(BaseGameState):
 
         def set_next_state(ip_address):
             next_state = LoginState(self.state_manager, ip_address.strip())
-            next_state.set_self()
+            next_state.set_self(exclusive=True)
 
         self.gui_manager = GUIManager(self.state_manager.screen, self.state_manager.base_font_path)
 

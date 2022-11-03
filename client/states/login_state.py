@@ -16,7 +16,7 @@ class LoginState(BaseGameState):
         # next state will be ChatState
         def set_next_state(user_name):
             next_state = ChatState(self.state_manager, user_name, ip_address)
-            next_state.set_self()
+            next_state.set_self(exclusive=True)
 
         self.gui_manager = GUIManager(self.state_manager.screen, self.state_manager.base_font_path)
 

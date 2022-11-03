@@ -7,6 +7,7 @@ from game_state_manager import GameStateManager
 from gui_manager import GUIManager
 from gui_elements.chat_box import ChatBox
 from gui_elements.text_input import TextInput
+from states.users_state import UsersState
 from settings import *
 
 
@@ -79,11 +80,30 @@ class ChatState(BaseGameState):
         }
 
         return json.dumps(data).encode()
+
+    def get_users_list(self):
+        message = self.make_message(method='USERS')
+
+        self.socket.setblocking(True)
+        self.socket.sendall(message)
+        data = self.socket.recv(1024).decode()
+        self.socket.setblocking(False)
+        data = json.loads(data)
+
+        return data['message']
     
     def process_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_TAB:
                 self.text_input.active = True
+            elif event.key == pygame.K_ESCAPE:
+                next_state = UsersState(
+                    self.state_manager,
+                    self.member_name,
+                    self.get_users_list()
+                )
+                next_state.set_self()
+
         self.gui_manager.process_event(event)
 
     def update(self):
