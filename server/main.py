@@ -30,6 +30,23 @@ def run_server(host, port):
 
                 connection.setblocking(False)
 
+                user_alredy_exists = False
+                for user in client_sockets:
+                    if user[0] == username:
+                        user_alredy_exists = True
+                        break
+                
+                if user_alredy_exists:
+                    # if user tries to connect under already used username, we close connection and pass the cycle
+                    cant_connect_message = {
+                        'method': 'MESSAGE',
+                        'username': None,
+                        'message': 'Вы не можете присоединиться к серверу с таким именем'
+                    }
+                    connection.sendall(json.dumps(cant_connect_message).encode())
+                    connection.close()
+                    continue
+
                 client_sockets.append([username, connection])
 
                 connected_message = {
@@ -74,8 +91,8 @@ def run_server(host, port):
                             'message': [u[0] for u in client_sockets]
                         }
                         cur_socket.sendall(json.dumps(users_message).encode())
-                except Exception as e:
-                    print(e)
+                except:
+                    pass
 
             time.sleep(0.2)
 
