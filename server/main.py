@@ -57,10 +57,17 @@ def run_server(host, port):
                         for receiver_user in client_sockets:
                             # send "user diconnected" message to all users
                             receiver_user[1].sendall(json.dumps(disconnected_message).encode())
-                    else:
+                    elif data.get('method') == 'MESSAGE':
                         for receiver_user in client_sockets:
                             # send message to all users
                             receiver_user[1].sendall(json.dumps(data).encode())
+                    elif data.get('method') == 'USERS':
+                        users_message = {
+                            'method': 'USERS',
+                            'username': user[0],
+                            'message': [u[0] for u in client_sockets]
+                        }
+                        cur_socket.sendall(json.dumps(users_message).encode())
                 except:
                     pass
 
