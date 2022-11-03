@@ -3,6 +3,13 @@ import time
 import json
 
 
+def get_jsonified_message(message: bytes):
+    try:
+        return json.loads(message.decode())
+    except:
+        return None
+
+
 def run_server(host, port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((host, port))
@@ -24,7 +31,6 @@ def run_server(host, port):
                 connection.setblocking(False)
 
                 client_sockets.append([username, connection])
-                print(f'[EVENT] Connected: {username}')
 
                 connected_message = {
                             'method': 'CONNECT',
@@ -42,12 +48,12 @@ def run_server(host, port):
                 try:
                     cur_socket = user[1]
                     data = cur_socket.recv(1024)
-                    data = json.loads(data.decode())
+                    data = get_jsonified_message(data)
                     if not data or data.get('method') == 'QUIT':
                         # if client is disconnected or wants to disconnect - close socket and remove him from sockets
-                        cur_socket.close()
-                        print(f'[EVENT] Disconnected: {user[0]}')
                         client_sockets.remove(user)
+                        print(f'[EVENT] Disconnected: {user[0]}')
+                        cur_socket.close()
 
                         disconnected_message = {
                             'method': 'QUIT',
@@ -68,8 +74,8 @@ def run_server(host, port):
                             'message': [u[0] for u in client_sockets]
                         }
                         cur_socket.sendall(json.dumps(users_message).encode())
-                except:
-                    pass
+                except Exception as e:
+                    print(e)
 
             time.sleep(0.2)
 
